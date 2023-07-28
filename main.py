@@ -1,19 +1,16 @@
-import redis
-from flask import Flask
+import os
+
+from flask import Flask, request
+from markupsafe import escape
+
 app = Flask(__name__)
-redis = redis.Redis(host='redis', port=6379, db=0)
+
 @app.route('/')
-def hello_world():
-    return 'Hello, World!'
-@app.route('/visitor')
-def visitor():
-    redis.incr('visitor')
-    visitor_num = redis.get('visitor').decode("utf-8")
-    return "Visitor: %s" % (visitor_num)
-@app.route('/visitor/reset')
-def reset_visitor():
-    redis.set('visitor', 0)
-    visitor_num = redis.get('visitor').decode("utf-8")
-    return "Visitor is reset to %s" % (visitor_num)
-if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+def hello():
+    name = request.args.get("name", "World")
+    return f'Hello, {escape(name)}!'
+
+
+if __name__=="__main__":
+    app.run(host=os.getenv('IP', '0.0.0.0'),  # https://stackoverflow.com/questions/7023052/configure-flask-dev-server-to-be-visible-across-the-network
+            port=int(os.getenv('PORT', 4444)))

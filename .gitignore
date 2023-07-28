@@ -1,0 +1,23 @@
+*.swp
+/.idea/
+.terraform
+*.lock.hcl
+
+# Eclipse dev policies
+.buildpath
+.project
+.pydevproject
+
+.ipynb_checkpoints/
+*.ipynb
+*.pyc
+.coverage
+.DS_Store
+*.lock
+.vscode
+*~
+.zip
+bluevine-config.json
+*-temp
+extras
+errored*
