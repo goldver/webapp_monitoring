@@ -10,7 +10,7 @@ webapp_monitoring
 
 
 # Docker Compose usage
-- `docker-compose up`
+- `docker-compose up [-d]`
 
 # Docker Usage:
 - `docker build .`
@@ -18,5 +18,14 @@ webapp_monitoring
 
 # Python Usage:
 - `python3 main.py`
+
+# Prometheus:
+`http://localhost:9090/`
+
+# Webapp:
+`http://localhost:4444`
+
+# Troubleshooting
+- Test target (Prometheus): `curl -v http://127.0.0.1:4444/metrics`
 
 Author: goldver@gmail.com | Michael Vershinin
