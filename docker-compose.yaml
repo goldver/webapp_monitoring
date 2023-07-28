@@ -6,22 +6,33 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
-  app:
-    build: .
-    container_name: flask_webapp
+
+  grafana:
+    image: grafana/grafana:7.5.2
     volumes:
-      - .:/app
+      - ./datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
     ports:
-      - "8000:8000"
-    logging:
-      driver: gelf
-      options:
-        gelf-address: "udp://localhost:12201"
-        tag: "home_app"
-    networks:
-      - u-online
+      - "3000:3000"
+
+#  app:
+#    build: .
+#    container_name: flask_webapp
+#    volumes:
+#      - .:/app
+#    ports:
+#      - "8000:8000"
+#    logging:
+#      driver: gelf
+#      options:
+#        gelf-address: "udp://localhost:12201"
+#        tag: "home_app"
+##    networks:
+##      - u-online
+
+volumes:
+  prometheus:
 
 #Docker Networks
-networks:
-  u-online:
-    driver: bridge
+#networks:
+#  u-online:
+#    driver: bridge
