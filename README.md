@@ -30,9 +30,9 @@ webapp_monitoring
 - http://localhost:3000/explore?orgId=1&left=%5B%22now-1h%22,%22now%22,%22Prometheus%22,%7B%22exemplar%22:true,%22expr%22:%22view_total%22,%22requestId%22:%22Q-56f84b4f-be36-4fcc-b76b-a75e3c70b51c-0A%22%7D%5D
 
 # Webapp:
-`http://localhost:4444`
+`http://localhost:5000`
 
 # Troubleshooting
-- Test target (Prometheus): `curl -v http://127.0.0.1:4444/metrics`
+- Test target (Prometheus): `curl -v http://127.0.0.1:5000/metrics`
 
 Author: goldver@gmail.com | Michael Vershinin
