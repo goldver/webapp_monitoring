@@ -1,19 +1,10 @@
 version: '3'
 services:
-  nginx:
-    image: nginx:latest
-    container_name: production_nginx
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+  prometheus:
+    image: prom/prometheus:v2.26.0
     ports:
-      - 80:80
-      - 443:443
-    depends_on:
-      - elasticsearch
-      - logstash
-      - app
-    networks:
-      - u-online
+      - "9090:9090"
+
   app:
     build: .
     container_name: flask_webapp
@@ -21,10 +12,6 @@ services:
       - .:/app
     ports:
       - "8000:8000"
-    links:
-      - redis:redis
-    depends_on:
-      - redis
     logging:
       driver: gelf
       options:
@@ -32,54 +19,7 @@ services:
         tag: "home_app"
     networks:
       - u-online
-  redis:
-    image: "redis:alpine"
-    expose:
-      - "6379"
-    logging:
-      driver: gelf
-      options:
-        gelf-address: "udp://localhost:12201"
-        tag: "home_redis"
-    networks:
-      - u-online
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
-    environment:
-      - discovery.type=single-node
-    ports:
-      - 9200:9200
-    networks:
-      - u-online
-  kibana:
-    image: docker.elastic.co/kibana/kibana:7.12.0
-    ports:
-      - 5601:5601
-    depends_on:
-      - elasticsearch
-      - logstash
-    environment:
-      SERVER_BASEPATH: /kibana
-    logging:
-      driver: gelf
-      options:
-        gelf-address: "udp://localhost:12201"
-        tag: "home_kibana"
-    networks:
-      - u-online
-  logstash:
-    image: docker.elastic.co/logstash/logstash:7.6.2
-    links:
-      - elasticsearch
-    volumes:
-      - .:/etc/logstash
-    command: logstash -f /etc/logstash/logstash.conf
-    ports:
-      - 12201:12201/udp
-    depends_on:
-      - elasticsearch
-    networks:
-      - u-online
+
 #Docker Networks
 networks:
   u-online:
